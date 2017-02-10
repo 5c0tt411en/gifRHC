@@ -6,7 +6,7 @@ import gifAnimation.*;
 import oscP5.*;
 import netP5.*;
 
-GifMaker gifExport01, ;
+GifMaker gifExport;
 
 OscP5 oscP5;
 
