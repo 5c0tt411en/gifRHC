@@ -33,8 +33,8 @@ public class Sample_1 {
 		rotateY(r * p9);
 		rotateZ(r * p10);
 		translate(transX * p4 * 2, 0);
-		ellipse(1 + p1 * 50, 20 + (p2 + p7 * in.left.get(100) * 10) * 50, (p7 + p2) * 40, 50);
-		ellipse(p3 * 50, p4 * 20, 50, 50 * (p7 + p2));
+		point(1 + p1 * 50, 20 + (p2 + p7 * in.left.get(100) * 10) * 50);
+		point(p3 * 50, p4 * 20);
 		popMatrix();
 		popMatrix();
 
