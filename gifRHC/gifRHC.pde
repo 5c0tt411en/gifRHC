@@ -1,46 +1,33 @@
-import ddf.minim.*;
-Minim minim;
-AudioInput in;
+import processing.video.*;
+Movie mov;
 
 import gifAnimation.*;
-import oscP5.*;
-import netP5.*;
 
-GifMaker gifExport01, gifExport02, gifExport03, gifExport04;
+GifMaker gifDummy, gifExport01, gifExport02, gifExport03, gifExport04;
 
-OscP5 oscP5;
-
-int mode, transX, transY;
+int mode, transX, transY, newFrame, frame, frameStamp;
 float time, timeStamp, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10;
 enum Status {BLANK, INIT, BEGIN, END}
 Status stat;
 String addr;
 String[] adSp;
 
-Sample_1[][] s1 = new Sample_1[10][40];
-
 void setup(){
-	minim = new Minim(this);
-	in = minim.getLineIn(Minim.STEREO, 512);
-
-  oscP5 = new OscP5(this,8000);
   stat = Status.BLANK;
-  size(288, 224, OPENGL);
-  ortho();
+  size(288, 224);
   noSmooth();
-  frameRate(12.5);
+  frameRate(25);
 
-	for (int i = 0; i < s1.length; i++) {
-		float transX = i * width / 40;
-		float transY = i * height / 40;
-		float rArray = i / 100;
-		for (int j = 0; j < s1[0].length; j++) {
-			s1[i][j] = new Sample_1(transX, -height / 4 + height / 20 * i, PI / 25 * j, rArray);
-		}
-	}
+  mov = new Movie(this, "mov/test.mov");
+  mov.loop();
+  mov.filter(THRESHOLD, 0.5);
+  mov.play();
+  mov.jump(0);
+  mov.pause();
 }
 
 void draw(){
+  frame = frameCount - frameStamp;
   time = float(millis()) / 1000 - timeStamp;
 
   switch (stat) {
@@ -48,6 +35,11 @@ void draw(){
       background(0);
       textSize(40);
       text("START", width / 2 - 60, height / 2 + 10);
+      if (time >= 5.0) {
+        timeStamp = float(millis()) / 1000;
+        frameStamp = frameCount;
+        stat = Status.INIT;
+      }
       break;
     case INIT:
       pushMatrix();
@@ -56,39 +48,38 @@ void draw(){
       textSize(40);
       text("START", width / 2 - 60, height / 2 + 10);
       popMatrix();
-      gifExport01 = new GifMaker(this, "exportedGIF/03/01.gif");
+      gifDummy = new GifMaker(this, "exportedGIF/03/dummy.gif");
+      gifDummy.setSize(width / 2, height / 2);
+      gifDummy.setRepeat(0);
+      gifDummy.setQuality(10);
+      gifDummy.setDelay(80);
+      gifExport01 = new GifMaker(this, "exportedGIF/03/02.gif");
       gifExport01.setSize(width / 2, height / 2);
       gifExport01.setRepeat(0);
-      gifExport01.setQuality(1);
+      gifExport01.setQuality(10);
       gifExport01.setDelay(80);
-      gifExport02 = new GifMaker(this, "exportedGIF/03/02.gif");
+      gifExport02 = new GifMaker(this, "exportedGIF/03/01.gif");
       gifExport02.setSize(width / 2, height / 2);
       gifExport02.setRepeat(0);
-      gifExport02.setQuality(1);
+      gifExport02.setQuality(10);
       gifExport02.setDelay(80);
       gifExport03 = new GifMaker(this, "exportedGIF/03/03.gif");
       gifExport03.setSize(width / 2, height / 2);
       gifExport03.setRepeat(0);
-      gifExport03.setQuality(1);
+      gifExport03.setQuality(10);
       gifExport03.setDelay(80);
       gifExport04 = new GifMaker(this, "exportedGIF/03/04.gif");
       gifExport04.setSize(width / 2, height / 2);
       gifExport04.setRepeat(0);
-      gifExport04.setQuality(1);
+      gifExport04.setQuality(10);
       gifExport04.setDelay(80);
-      for(int i = 0; i < 20; i++) {
-        gifExport01.addFrame();
-        gifExport02.addFrame();
-        gifExport03.addFrame();
-        gifExport04.addFrame();
-        delay(100);
-      }
       timeStamp = float(millis()) / 1000;
+      frameStamp = frameCount;
       stat = Status.BEGIN;
       break;
     case BEGIN:
-      for (int n = 1; n <= 4; n++) {
-        switch (n) {
+        switch (frame % 5) {
+          case 0: transX = 0; transY = 0;                       break;
           case 1: transX = 0; transY = 0;                       break;
           case 2: transX = - width / 2; transY = 0;             break;
           case 3: transX = 0; transY = - height / 2;            break;
@@ -96,30 +87,30 @@ void draw(){
           default:                                              break;
         }
         pushMatrix();
-        translate(transX, transY);
-        ///////////////////////////////////////////////////////////////////
-        background(0);
-        textSize(40);
-        text(str(time), width / 2 - 120, height / 2 + 10);
-        s1[0][0].displaySample_1();
-	      for (int i = 0; i < s1.length; i++) {
-		      s1[i][0].revolve();
-		      for(int j = 0; j < s1[0].length; j++) {
-			      s1[i][j].drawCubes();
-		      }
-	      }
-        ///////////////////////////////////////////////////////////////////
+          translate(transX, transY);
+          background(0);
+          image(mov, 64, 0, 224, 224);
+          setFrame(newFrame);
+          textSize(40);
+          /* text(str(int(mov.time())), width / 2 - 10, height / 2 + 10); */
         popMatrix();
-        switch (n) {
+        switch (frame % 5) {
+          case 0: gifDummy.addFrame();    break;
           case 1: gifExport01.addFrame(); break;
           case 2: gifExport02.addFrame(); break;
           case 3: gifExport03.addFrame(); break;
           case 4: gifExport04.addFrame(); break;
           default:                        break;
         }
+      if (frame % 5 == 4) newFrame+=2;
+      if (time > mov.duration() * 2.5) {
+        timeStamp = float(millis()) / 1000;
+        frameStamp = frameCount;
+        stat = Status.END;
       }
       break;
     case END:
+      gifDummy.finish();
       gifExport01.finish();
       gifExport02.finish();
       gifExport03.finish();
@@ -131,39 +122,26 @@ void draw(){
   }
 }
 
-void oscEvent(OscMessage theOscMessage) {
-  addr = theOscMessage.addrPattern();
-  adSp = split(addr, "/");
-
-  if (adSp[1].equals("begin")) {
-    timeStamp = float(millis()) / 1000;
-    stat = Status.INIT;
-  }
-  else if (adSp[1].equals("end")) {
-    timeStamp = float(millis()) / 1000;
-    stat = Status.END;
-  }
-  else if (adSp[1].equals("param")) {
-    float  val = theOscMessage.get(0).floatValue();
-    switch (int(adSp[2])) {
-      case 1:   p1 = val;   break;
-      case 2:   p2 = val;   break;
-      case 3:   p3 = val;   break;
-      case 4:   p4 = val;   break;
-      case 5:   p5 = val;   break;
-      case 6:   p6 = val;   break;
-      case 7:   p7 = val;   break;
-      case 8:   p8 = val;   break;
-      case 9:   p9 = val;   break;
-      case 10:  p10 = val;  break;
-      default:              break;
-    }
-  }
+void movieEvent(Movie m) {
+  m.read();
+  m.filter(THRESHOLD, 0.5);
 }
 
-
-void stop() {
-	in.close();
-	minim.stop();
-	super.stop();
-}
+void setFrame(int n) {
+  mov.play();
+    
+  // The duration of a single frame:
+  float frameDuration = 1.0 / mov.frameRate;
+    
+  // We move to the middle of the frame by adding 0.5:
+  float where = (n + 0.5) * frameDuration; 
+    
+  // Taking into account border effects:
+  float diff = mov.duration() - where;
+  if (diff < 0) {
+    where += diff - 0.25 * frameDuration;
+  }
+    
+  mov.jump(where);
+  mov.pause();  
+}  
