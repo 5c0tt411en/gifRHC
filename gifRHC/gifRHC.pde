@@ -6,7 +6,7 @@ import gifAnimation.*;
 import oscP5.*;
 import netP5.*;
 
-GifMaker gifExport01, gifExport02, gifExport03, gifExport04;
+GifMaker gifExport;
 
 OscP5 oscP5;
 
@@ -26,7 +26,7 @@ void setup(){
   oscP5 = new OscP5(this,8000);
   stat = Status.BLANK;
   size(288, 224, OPENGL);
-  ortho();
+  /* ortho(); */
   noSmooth();
   frameRate(12.5);
 
@@ -50,53 +50,22 @@ void draw(){
       text("START", width / 2 - 60, height / 2 + 10);
       break;
     case INIT:
-      pushMatrix();
-      translate(transX, transY);
       background(0);
       textSize(40);
       text("START", width / 2 - 60, height / 2 + 10);
-      popMatrix();
-      gifExport01 = new GifMaker(this, "exportedGIF/03/01.gif");
-      gifExport01.setSize(width / 2, height / 2);
-      gifExport01.setRepeat(0);
-      gifExport01.setQuality(1);
-      gifExport01.setDelay(80);
-      gifExport02 = new GifMaker(this, "exportedGIF/03/02.gif");
-      gifExport02.setSize(width / 2, height / 2);
-      gifExport02.setRepeat(0);
-      gifExport02.setQuality(1);
-      gifExport02.setDelay(80);
-      gifExport03 = new GifMaker(this, "exportedGIF/03/03.gif");
-      gifExport03.setSize(width / 2, height / 2);
-      gifExport03.setRepeat(0);
-      gifExport03.setQuality(1);
-      gifExport03.setDelay(80);
-      gifExport04 = new GifMaker(this, "exportedGIF/03/04.gif");
-      gifExport04.setSize(width / 2, height / 2);
-      gifExport04.setRepeat(0);
-      gifExport04.setQuality(1);
-      gifExport04.setDelay(80);
+      gifExport = new GifMaker(this, "exportedGIF/03/01.gif");
+      gifExport.setSize(width, height);
+      gifExport.setRepeat(0);
+      gifExport.setQuality(1);
+      gifExport.setDelay(80);
       for(int i = 0; i < 20; i++) {
-        gifExport01.addFrame();
-        gifExport02.addFrame();
-        gifExport03.addFrame();
-        gifExport04.addFrame();
+        gifExport.addFrame();
         delay(100);
       }
       timeStamp = float(millis()) / 1000;
       stat = Status.BEGIN;
       break;
     case BEGIN:
-      for (int n = 1; n <= 4; n++) {
-        switch (n) {
-          case 1: transX = 0; transY = 0;                       break;
-          case 2: transX = - width / 2; transY = 0;             break;
-          case 3: transX = 0; transY = - height / 2;            break;
-          case 4: transX = - width / 2; transY = - height / 2;  break;
-          default:                                              break;
-        }
-        pushMatrix();
-        translate(transX, transY);
         ///////////////////////////////////////////////////////////////////
         background(0);
         textSize(40);
@@ -109,21 +78,10 @@ void draw(){
 		      }
 	      }
         ///////////////////////////////////////////////////////////////////
-        popMatrix();
-        switch (n) {
-          case 1: gifExport01.addFrame(); break;
-          case 2: gifExport02.addFrame(); break;
-          case 3: gifExport03.addFrame(); break;
-          case 4: gifExport04.addFrame(); break;
-          default:                        break;
-        }
-      }
+        gifExport.addFrame();
       break;
     case END:
-      gifExport01.finish();
-      gifExport02.finish();
-      gifExport03.finish();
-      gifExport04.finish();
+      gifExport.finish();
       exit();
       break;
     default:
