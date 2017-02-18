@@ -18,7 +18,7 @@ void setup(){
   noSmooth();
   frameRate(25);
 
-  mov = new Movie(this, "mov/SCENE1.mov");
+  mov = new Movie(this, "mov/SCENE7.mov");
 }
 
 void draw(){
@@ -34,27 +34,27 @@ void draw(){
       }
       break;
     case INIT:
-      gifDummy = new GifMaker(this, "exportedGIF/01/35/dummy.gif");
+      gifDummy = new GifMaker(this, "exportedGIF/07/05/dummy.gif");
       gifDummy.setSize(width / 2, height / 2);
       gifDummy.setRepeat(0);
       gifDummy.setQuality(10);
       gifDummy.setDelay(80);
-      gifExport01 = new GifMaker(this, "exportedGIF/01/35/02.gif");
+      gifExport01 = new GifMaker(this, "exportedGIF/07/05/02.gif");
       gifExport01.setSize(width / 2, height / 2);
       gifExport01.setRepeat(0);
       gifExport01.setQuality(10);
       gifExport01.setDelay(80);
-      gifExport02 = new GifMaker(this, "exportedGIF/01/35/01.gif");
+      gifExport02 = new GifMaker(this, "exportedGIF/07/05/01.gif");
       gifExport02.setSize(width / 2, height / 2);
       gifExport02.setRepeat(0);
       gifExport02.setQuality(10);
       gifExport02.setDelay(80);
-      gifExport03 = new GifMaker(this, "exportedGIF/01/35/03.gif");
+      gifExport03 = new GifMaker(this, "exportedGIF/07/05/03.gif");
       gifExport03.setSize(width / 2, height / 2);
       gifExport03.setRepeat(0);
       gifExport03.setQuality(10);
       gifExport03.setDelay(80);
-      gifExport04 = new GifMaker(this, "exportedGIF/01/35/04.gif");
+      gifExport04 = new GifMaker(this, "exportedGIF/07/05/04.gif");
       gifExport04.setSize(width / 2, height / 2);
       gifExport04.setRepeat(0);
       gifExport04.setQuality(10);
@@ -80,8 +80,6 @@ void draw(){
           translate(transX, transY);
           background(0);
           image(mov, 64, 0, 224, 224);
-          /* textSize(40); */
-          /* text(str((mov.time())), width / 2 - 10, height / 2 + 10); */
         popMatrix();
         switch (i % 5) {
           case 0: gifDummy.addFrame();    break;
@@ -91,9 +89,6 @@ void draw(){
           case 4: gifExport04.addFrame(); break;
           default:                        break;
         }
-        /* delay(100); */
-      /* if (i % 5 == 4) newFrame+=2; */
-      /* setFrame(newFrame); */
       if (time > mov.duration()) {
         timeStamp = float(millis()) / 1000;
         frameStamp = frameCount;
@@ -118,23 +113,4 @@ void draw(){
 void movieEvent(Movie m) {
   m.read();
   mov.filter(THRESHOLD, 0.5);
-}
-
-void setFrame(int n) {
-  mov.play();
-
-  // The duration of a single frame:
-  float frameDuration = 1.0 / mov.frameRate;
-
-  // We move to the middle of the frame by adding 0.5:
-  float where = (n + 0.5) * frameDuration;
-
-  // Taking into account border effects:
-  float diff = mov.duration() - where;
-  if (diff < 0) {
-    where += diff - 0.25 * frameDuration;
-  }
-
-  mov.jump(where);
-  mov.pause();
 }
