@@ -3,7 +3,7 @@ Movie mov;
 
 import gifAnimation.*;
 
-GifMaker gifDummy, gifExport01, gifExport02, gifExport03, gifExport04, gifExport05, gifExport06;
+GifMaker gifDummy, gifExport01, gifExport02, gifExport03, gifExport04, gifExport05, gifExport06, gifExport07, gifExport08;
 
 int mode, transX, transY, newFrame, frame, frameStamp;
 float time, timeStamp;
@@ -22,12 +22,14 @@ void setup(){
 }
 
 void draw(){
-  if (time >= 0 && time < mov.duration() / 6) mode = 1;
-  else if (time >= mov.duration() / 6 && time < 2 * mov.duration() / 6) mode = 2;
-  else if (2 * time >= mov.duration() / 6 && time < 3 * mov.duration() / 6) mode = 3;
-  else if (3 * time >= mov.duration() / 6 && time < 4 * mov.duration() / 6) mode = 4;
-  else if (4 * time >= mov.duration() / 6 && time < 5 * mov.duration() / 6) mode = 5;
-  else if (5 * time >= mov.duration() / 6 && time < mov.duration()) mode = 6;
+  if (time >= 0 && time < mov.duration() / 8) mode = 1;
+  else if (time >= mov.duration() / 8 && time < 2 * mov.duration() / 8) mode = 2;
+  else if (2 * time >= mov.duration() / 8 && time < 3 * mov.duration() / 8) mode = 3;
+  else if (3 * time >= mov.duration() / 8 && time < 4 * mov.duration() / 8) mode = 4;
+  else if (4 * time >= mov.duration() / 8 && time < 5 * mov.duration() / 8) mode = 5;
+  else if (5 * time >= mov.duration() / 8 && time < 6 * mov.duration() / 8) mode = 6;
+  else if (6 * time >= mov.duration() / 8 && time < 7 * mov.duration() / 8) mode = 7;
+  else if (7 * time >= mov.duration() / 8 && time < mov.duration()) mode = 8;
   frame = frameCount - frameStamp;
   time = float(millis()) / 1000 - timeStamp;
 
@@ -40,41 +42,51 @@ void draw(){
       }
       break;
     case INIT:
-      gifDummy = new GifMaker(this, "exportedGIF/01/time/01/dummy.gif");
+      gifDummy = new GifMaker(this, "exportedGIF/01/time8/01/dummy.gif");
       gifDummy.setSize(width, height);
       gifDummy.setRepeat(0);
       gifDummy.setQuality(10);
       gifDummy.setDelay(80);
-      gifExport01 = new GifMaker(this, "exportedGIF/01/time/01/01.gif");
+      gifExport01 = new GifMaker(this, "exportedGIF/01/time8/01/01.gif");
       gifExport01.setSize(width, height);
       gifExport01.setRepeat(0);
       gifExport01.setQuality(10);
       gifExport01.setDelay(80);
-      gifExport02 = new GifMaker(this, "exportedGIF/01/time/01/02.gif");
+      gifExport02 = new GifMaker(this, "exportedGIF/01/time8/01/02.gif");
       gifExport02.setSize(width, height);
       gifExport02.setRepeat(0);
       gifExport02.setQuality(10);
       gifExport02.setDelay(80);
-      gifExport03 = new GifMaker(this, "exportedGIF/01/time/01/03.gif");
+      gifExport03 = new GifMaker(this, "exportedGIF/01/time8/01/03.gif");
       gifExport03.setSize(width, height);
       gifExport03.setRepeat(0);
       gifExport03.setQuality(10);
       gifExport03.setDelay(80);
-      gifExport04 = new GifMaker(this, "exportedGIF/01/time/01/04.gif");
+      gifExport04 = new GifMaker(this, "exportedGIF/01/time8/01/04.gif");
       gifExport04.setSize(width, height);
       gifExport04.setRepeat(0);
       gifExport04.setQuality(10);
       gifExport04.setDelay(80);
-      gifExport05 = new GifMaker(this, "exportedGIF/01/time/01/05.gif");
+      gifExport05 = new GifMaker(this, "exportedGIF/01/time8/01/05.gif");
       gifExport05.setSize(width, height);
       gifExport05.setRepeat(0);
       gifExport05.setQuality(10);
       gifExport05.setDelay(80);
-      gifExport06 = new GifMaker(this, "exportedGIF/01/time/01/06.gif");
+      gifExport06 = new GifMaker(this, "exportedGIF/01/time8/01/06.gif");
       gifExport06.setSize(width, height);
       gifExport06.setRepeat(0);
       gifExport06.setQuality(10);
       gifExport06.setDelay(80);
+      gifExport07 = new GifMaker(this, "exportedGIF/01/time8/01/07.gif");
+      gifExport07.setSize(width, height);
+      gifExport07.setRepeat(0);
+      gifExport07.setQuality(10);
+      gifExport07.setDelay(80);
+      gifExport08 = new GifMaker(this, "exportedGIF/01/time8/01/08.gif");
+      gifExport08.setSize(width, height);
+      gifExport08.setRepeat(0);
+      gifExport08.setQuality(10);
+      gifExport08.setDelay(80);
       timeStamp = float(millis()) / 1000;
       frameStamp = frameCount;
       mov.loop();
@@ -92,6 +104,8 @@ void draw(){
           case 4: gifExport04.addFrame(); break;
           case 5: gifExport05.addFrame(); break;
           case 6: gifExport06.addFrame(); break;
+          case 7: gifExport07.addFrame(); break;
+          case 8: gifExport08.addFrame(); break;
           default:                        break;
         }
       if (time > mov.duration()) {
@@ -109,6 +123,8 @@ void draw(){
       gifExport04.finish();
       gifExport05.finish();
       gifExport06.finish();
+      gifExport07.finish();
+      gifExport08.finish();
       exit();
       break;
     default:
