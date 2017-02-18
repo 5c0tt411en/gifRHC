@@ -34,31 +34,31 @@ void draw(){
       }
       break;
     case INIT:
-      gifDummy = new GifMaker(this, "exportedGIF/01/35/dummy.gif");
+      gifDummy = new GifMaker(this, "exportedGIF/01/01/dummy.gif");
       gifDummy.setSize(width / 2, height / 2);
       gifDummy.setRepeat(0);
       gifDummy.setQuality(10);
       gifDummy.setDelay(80);
-      gifExport01 = new GifMaker(this, "exportedGIF/01/35/02.gif");
-      gifExport01.setSize(width / 2, height / 2);
+      gifExport01 = new GifMaker(this, "exportedGIF/01/01/02.gif");
+      gifExport01.setSize(width / 2, height);
       gifExport01.setRepeat(0);
       gifExport01.setQuality(10);
       gifExport01.setDelay(80);
-      gifExport02 = new GifMaker(this, "exportedGIF/01/35/01.gif");
-      gifExport02.setSize(width / 2, height / 2);
+      gifExport02 = new GifMaker(this, "exportedGIF/01/01/01.gif");
+      gifExport02.setSize(width / 2, height);
       gifExport02.setRepeat(0);
       gifExport02.setQuality(10);
       gifExport02.setDelay(80);
-      gifExport03 = new GifMaker(this, "exportedGIF/01/35/03.gif");
-      gifExport03.setSize(width / 2, height / 2);
-      gifExport03.setRepeat(0);
-      gifExport03.setQuality(10);
-      gifExport03.setDelay(80);
-      gifExport04 = new GifMaker(this, "exportedGIF/01/35/04.gif");
-      gifExport04.setSize(width / 2, height / 2);
-      gifExport04.setRepeat(0);
-      gifExport04.setQuality(10);
-      gifExport04.setDelay(80);
+      /* gifExport03 = new GifMaker(this, "exportedGIF/01/35/03.gif"); */
+      /* gifExport03.setSize(width / 2, height / 2); */
+      /* gifExport03.setRepeat(0); */
+      /* gifExport03.setQuality(10); */
+      /* gifExport03.setDelay(80); */
+      /* gifExport04 = new GifMaker(this, "exportedGIF/01/35/04.gif"); */
+      /* gifExport04.setSize(width / 2, height / 2); */
+      /* gifExport04.setRepeat(0); */
+      /* gifExport04.setQuality(10); */
+      /* gifExport04.setDelay(80); */
       timeStamp = float(millis()) / 1000;
       frameStamp = frameCount;
       mov.loop();
@@ -66,7 +66,7 @@ void draw(){
       break;
      case BEGIN:
      if (frame % 2 == 1) {
-      for (int i = 4; i >= 0; i--) {
+      for (int i = 2; i >= 0; i--) {
         switch (i % 5) {
           case 0: transX = 0; transY = 0;                       break;
           case 1: transX = 0; transY = 0;                       break;
@@ -87,8 +87,8 @@ void draw(){
           case 0: gifDummy.addFrame();    break;
           case 1: gifExport01.addFrame(); break;
           case 2: gifExport02.addFrame(); break;
-          case 3: gifExport03.addFrame(); break;
-          case 4: gifExport04.addFrame(); break;
+          /* case 3: gifExport03.addFrame(); break; */
+          /* case 4: gifExport04.addFrame(); break; */
           default:                        break;
         }
         /* delay(100); */
@@ -106,8 +106,8 @@ void draw(){
       gifDummy.finish();
       gifExport01.finish();
       gifExport02.finish();
-      gifExport03.finish();
-      gifExport04.finish();
+      /* gifExport03.finish(); */
+      /* gifExport04.finish(); */
       exit();
       break;
     default:
